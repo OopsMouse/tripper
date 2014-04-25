@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	style(type='text/css').
+		.angular-google-map-container { height: 400px; }
+
+	script(type='text/javascript').
+		angular.module('tripper', ['google-maps']);
+
+		function TRMapCtrl($scope) {
+			$scope.map = {
+				center: {
+					latitude: 45,
+					longitude: -73
+				},
+				zoom: 8
+			};
+		}
+
+	div(ng-controller='TRMapCtrl')
+		google-map(center="map.center", zoom="map.zoom")
