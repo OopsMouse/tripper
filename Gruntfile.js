@@ -1,5 +1,20 @@
+'use strict';
+
 module.exports = function(grunt) {
 	grunt.initConfig({
+		jshint: {
+			files: [
+        'Gruntfile.js',
+        'routes/**/*.js',
+        'package.json',
+        'test/**/*.js',
+        '*.js',
+        '.jshintrc'
+			],
+      options: {
+        jshintrc: '.jshintrc'
+      }
+		},
 		exec: {
 			express: {
 				cmd: 'npm start',
@@ -14,5 +29,6 @@ module.exports = function(grunt) {
 	});
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.registerTask('default', [ 'watch']);
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.registerTask('default', [ 'jshint', 'watch' ]);
 };
