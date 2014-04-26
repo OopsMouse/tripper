@@ -2,11 +2,17 @@ doctype html
 html(ng-app='tripper')
   head
     link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
+
+    //- angular
     script(src='/vendor/angular/angular.min.js')
-    script(src='/vender/angular-bootstrap/ui-bootstrap.min.js')
-    script(src='/vender/angular-bootstrap/ui-bootstrap-tpls.min.js')
+
+    //- angular-google-maps
     script(src='https://maps.googleapis.com/maps/api/js?sensor=false')
     script(src='/vendor/underscore/underscore-min.js')
     script(src='/vendor/angular-google-maps/dist/angular-google-maps.min.js')
+
+    //- ui-bootstrap
+    script(src='/vender/angular-bootstrap/ui-bootstrap.min.js')
   body
     block content
