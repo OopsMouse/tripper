@@ -1,35 +1,35 @@
 extends layout
 
 block content
-	style(type='text/css').
+  style(type='text/css').
 
-		.angular-google-map-container { height:100%; width:100%; position:absolute; top: 50px; left:0; }
+    .angular-google-map-container { height:100%; width:100%; position:absolute; top: 50px; left:0; }
 
-	script(type='text/javascript').
-		angular.module('tripper', ['google-maps', 'ngGPlaces', 'ui.bootstrap']);
+  script(type='text/javascript').
+    angular.module('tripper', ['google-maps', 'ngGPlaces', 'ui.bootstrap']);
 
-		function TRMapCtrl($scope) {
-			$scope.map = {
-				center: {
-					latitude: 45,
-					longitude: -73
-				},
-				zoom: 8,
-				events: {
-					click: function() {
-						console.log('click');
-					},
-					rightclick: function() {
-						console.log('rightclick');
-					},
-				}
-			};
-		}
+    function TRMapCtrl($scope) {
+      $scope.map = {
+        center: {
+          latitude: 45,
+          longitude: -73
+        },
+        zoom: 8,
+        events: {
+          click: function() {
+            console.log('click');
+          },
+          rightclick: function() {
+            console.log('rightclick');
+          },
+        }
+      };
+    }
 
-	nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
-		div.container-fluid
-			div.navbar-header
-				a.navbar-brand
-					| Tripper
-	div(ng-controller='TRMapCtrl')
-		google-map(center="map.center", zoom="map.zoom", events='map.events')
+  nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+    div.container-fluid
+      div.navbar-header
+        a.navbar-brand
+          | Tripper
+  div(ng-controller='TRMapCtrl')
+    google-map(center="map.center", zoom="map.zoom", events='map.events')
