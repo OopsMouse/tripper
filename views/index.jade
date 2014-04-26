@@ -9,21 +9,52 @@ block content
     angular.module('tripper', ['google-maps', 'ngGPlaces', 'ui.bootstrap']);
 
     function TRMapCtrl($scope) {
-      $scope.map = {
+
+      var mapWindow = {
+        coords: null,
+        isEnable: function() {
+          return this.coords &&
+                 this.coords.latitude  !== 'undefined' && this.coords.latitude  !== null &&
+                 this.coords.longitude !== 'undefined' && this.coords.longitude !== null;
+        },
+        getCoords: function() {
+          if (!this.coords) {
+            return null;
+          }
+
+          if (!this.coords.latitude || !this.coords.longitude) {
+            return null;
+          }
+
+          return coords;
+        },
+        setCoords: function(latitude, longitude) {
+          this.coords = {
+            latitude: latitude,
+            longitude: longitude
+          };
+          return this;
+        }
+      };
+
+      var map = {
         center: {
           latitude: 45,
           longitude: -73
         },
         zoom: 8,
         events: {
-          click: function() {
-            console.log('click');
-          },
-          rightclick: function() {
-            console.log('rightclick');
-          },
+          rightclick: function(mapModel, eventName, originalEventArgs) {
+            var e = originalEventArgs[0];
+            console.log(e);
+            mapWindow.setCoords(e.latLng.lat(), e.latLng.lng());
+            console.log(mapWindow.isEnable());
+          }
         }
       };
+
+      $scope.mapWindow = mapWindow;
+      $scope.map = map;
     }
 
   nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
@@ -33,3 +64,4 @@ block content
           | Tripper
   div(ng-controller='TRMapCtrl')
     google-map(center="map.center", zoom="map.zoom", events='map.events')
+      window(coords="mapWindow.getCoords()", show="mapWindow.isEnable()")
