@@ -14,7 +14,15 @@ block content
 					latitude: 45,
 					longitude: -73
 				},
-				zoom: 8
+				zoom: 8,
+				events: {
+					click: function() {
+						console.log('click');
+					},
+					rightclick: function() {
+						console.log('rightclick');
+					},
+				}
 			};
 		}
 
@@ -24,4 +32,4 @@ block content
 				a.navbar-brand
 					| Tripper
 	div(ng-controller='TRMapCtrl')
-		google-map(center="map.center", zoom="map.zoom")
+		google-map(center="map.center", zoom="map.zoom", events='map.events')
