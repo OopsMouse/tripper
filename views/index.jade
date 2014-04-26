@@ -5,7 +5,7 @@ block content
 		.angular-google-map-container { height: 400px; }
 
 	script(type='text/javascript').
-		angular.module('tripper', ['google-maps']);
+		angular.module('tripper', ['google-maps', 'ui.bootstrap']);
 
 		function TRMapCtrl($scope) {
 			$scope.map = {
