@@ -3,9 +3,7 @@ extends layout
 block content
 	style(type='text/css').
 
-		body { padding-top: 50px; }
-
-		.angular-google-map-container { height: 400px; }
+		.angular-google-map-container { height:100%; width:100%; position:absolute; top: 50px; left:0; }
 
 	script(type='text/javascript').
 		angular.module('tripper', ['google-maps', 'ui.bootstrap']);
