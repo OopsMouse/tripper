@@ -2,20 +2,20 @@ doctype html
 html(ng-app='tripper')
   head
     //- bootstrap
-    link(rel='stylesheet', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='/vendor/bootstrap/dist/css/bootstrap.min.css')
 
     //- font-awesome
-    link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', type='text/css', href='/vendor/font-awesome/css/font-awesome.min.css')
 
     //- angular
-    script(src='/vendor/angular/angular.min.js')
+    script(type='text/javascript', src='/vendor/angular/angular.min.js')
 
     //- angular-google-maps
-    script(src='https://maps.googleapis.com/maps/api/js?sensor=false')
-    script(src='/vendor/underscore/underscore-min.js')
-    script(src='/vendor/angular-google-maps/dist/angular-google-maps.min.js')
+    script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js?sensor=false')
+    script(type='text/javascript', src='/vendor/underscore/underscore-min.js')
+    script(type='text/javascript', src='/vendor/angular-google-maps/dist/angular-google-maps.min.js')
 
     //- ui-bootstrap
-    script(src='/vender/angular-bootstrap/ui-bootstrap.min.js')
+    script(type='text/javascript', src='/vender/angular-bootstrap/ui-bootstrap.min.js')
   body
     block content
