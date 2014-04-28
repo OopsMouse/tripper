@@ -8,7 +8,13 @@ block content
   script(type='text/javascript').
     angular.module('tripper', ['google-maps', 'ngGPlaces', 'ui.bootstrap', 'ui.bootstrap.tpls']);
 
-    function TRMapCtrl($scope) {
+    function TRAddMarkerViewCtrl($scope, $modalInstance) {
+      $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+      }
+    };
+
+    function TRMapCtrl($scope, $modal) {
 
       var mapWindow = {
         coords: null,
@@ -45,10 +51,10 @@ block content
         zoom: 8,
         events: {
           rightclick: function(mapModel, eventName, originalEventArgs) {
-            var e = originalEventArgs[0];
-            console.log(e);
-            mapWindow.setCoords(e.latLng.lat(), e.latLng.lng());
-            console.log(mapWindow.isEnable());
+            $modal.open({
+              templateUrl: 'addMarker.html',
+              controller: 'TRAddMarkerViewCtrl'
+            });
           }
         }
       };
@@ -70,5 +76,20 @@ block content
                 i.fa.fa-search
 
   div(ng-controller='TRMapCtrl')
+    script(type='text/ng-template', id='addMarker.html')
+      div(class='modal-header')
+        button(type='button', class='close', ng-click='cancel()', aria-hidden='true')
+          | &times;
+        h4(class='modal-body')
+          | Please enter details.
+      div(class='modal-body')
+        p
+          | test-body
+      div(class='modal-footer')
+        button(type='button', class='btn btn-default', ng-click='cancel()')
+          | Close
+        button(type='button', class='btn btn-primary')
+          | Add
+
     google-map(center="map.center", zoom="map.zoom", events='map.events')
       window(coords="mapWindow.getCoords()", show="mapWindow.isEnable()")
