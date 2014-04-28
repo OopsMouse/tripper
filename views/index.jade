@@ -62,6 +62,13 @@ block content
       div.navbar-header
         a.navbar-brand
           | Tripper
+        form.navbar-form(type='search')
+          div.input-group
+            input.form-control(type='text', placeholder='search', ng-model='query')
+            span.input-group-btn
+              button.btn.btn-primary(type='button')
+                i.fa.fa-search
+
   div(ng-controller='TRMapCtrl')
     google-map(center="map.center", zoom="map.zoom", events='map.events')
       window(coords="mapWindow.getCoords()", show="mapWindow.isEnable()")
