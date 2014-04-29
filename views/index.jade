@@ -5,91 +5,75 @@ block content
 
     .angular-google-map-container { height:100%; width:100%; position:absolute; top: 50px; left:0; }
 
-  script(type='text/javascript').
-    angular.module('tripper', ['google-maps', 'ngGPlaces', 'ui.bootstrap', 'ui.bootstrap.tpls']);
+  div(ng-controller='TRMapViewCtrl')
+    nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+      div.container-fluid
+        div.navbar-header
+          a.navbar-brand
+            | Tripper
+          form.navbar-form(type='search')
+            div.input-group
+              input.form-control(type='text', placeholder='search', ng-model='query')
+              span.input-group-btn
+                button.btn.btn-primary(type='button', ng-disabled='!query', ng-click='search(query)')
+                  i.fa.fa-search
+    div
+      script(type='text/ng-template', id='addMarker.html')
+        div(class='modal-header')
+          button(type='button', class='close', ng-click='cancel()', aria-hidden='true')
+            | &times;
+          h4(class='modal-body')
+            | Please enter details.
+        div(class='modal-body')
+          p
+            | test-body
+        div(class='modal-footer')
+          button(type='button', class='btn btn-default', ng-click='cancel()')
+            | Close
+          button(type='button', class='btn btn-primary')
+            | Add
 
-    function TRAddMarkerViewCtrl($scope, $modalInstance) {
+      google-map(center="map.center", zoom="map.zoom", events='map.events', control="map.control")
+        window(coords="mapWindow.getCoords()", show="mapWindow.isEnable()")
+
+  script(type='text/javascript').
+    angular.module('tripper', ['google-maps', 'ui.bootstrap', 'ui.bootstrap.tpls'])
+    .controller('TRAddMarkerViewCtrl', function ($scope, $modalInstance) {
       $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
       }
-    };
+    })
+    .controller('TRMapViewCtrl', function ($scope, $modal) {
 
-    function TRMapCtrl($scope, $modal) {
-
-      var mapWindow = {
-        coords: null,
-        isEnable: function() {
-          return this.coords &&
-                 this.coords.latitude  !== 'undefined' && this.coords.latitude  !== null &&
-                 this.coords.longitude !== 'undefined' && this.coords.longitude !== null;
-        },
-        getCoords: function() {
-          if (!this.coords) {
-            return null;
-          }
-
-          if (!this.coords.latitude || !this.coords.longitude) {
-            return null;
-          }
-
-          return coords;
-        },
-        setCoords: function(latitude, longitude) {
-          this.coords = {
-            latitude: latitude,
-            longitude: longitude
-          };
-          return this;
+      angular.extend($scope, {
+        map: {
+          center: {
+            latitude: 45,
+            longitude: -73
+          },
+          zoom: 8,
+          events: {
+            rightclick: function(mapModel, eventName, originalEventArgs) {
+              $modal.open({
+                templateUrl: 'addMarker.html',
+                controller: 'TRAddMarkerViewCtrl'
+              });
+            }
+          },
+          control: {}
         }
-      };
+      });
 
-      var map = {
-        center: {
-          latitude: 45,
-          longitude: -73
-        },
-        zoom: 8,
-        events: {
-          rightclick: function(mapModel, eventName, originalEventArgs) {
-            $modal.open({
-              templateUrl: 'addMarker.html',
-              controller: 'TRAddMarkerViewCtrl'
-            });
+      $scope.search = function(text) {
+        var map = $scope.map.control.getGMap();
+        var service = new google.maps.places.PlacesService(map);
+        service.textSearch({
+          query: text
+        }, function(results, status) {
+          if (status !== google.maps.places.PlacesServiceStatus.OK) {
+            return;
           }
-        }
+          console.log(results);
+        });
       };
-
-      $scope.mapWindow = mapWindow;
-      $scope.map = map;
-    }
-
-  nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
-    div.container-fluid
-      div.navbar-header
-        a.navbar-brand
-          | Tripper
-        form.navbar-form(type='search')
-          div.input-group
-            input.form-control(type='text', placeholder='search', ng-model='query')
-            span.input-group-btn
-              button.btn.btn-primary(type='button')
-                i.fa.fa-search
-
-  div(ng-controller='TRMapCtrl')
-    script(type='text/ng-template', id='addMarker.html')
-      div(class='modal-header')
-        button(type='button', class='close', ng-click='cancel()', aria-hidden='true')
-          | &times;
-        h4(class='modal-body')
-          | Please enter details.
-      div(class='modal-body')
-        p
-          | test-body
-      div(class='modal-footer')
-        button(type='button', class='btn btn-default', ng-click='cancel()')
-          | Close
-        button(type='button', class='btn btn-primary')
-          | Add
-
-    google-map(center="map.center", zoom="map.zoom", events='map.events')
-      window(coords="mapWindow.getCoords()", show="mapWindow.isEnable()")
+    });
